@@ -62,6 +62,9 @@ impl TlsConnector {
             None => builder.with_no_client_auth(),
         };
 
+        // Try strip brackets from the IPv6 address.
+        let domain = domain.trim_start_matches('[').trim_end_matches(']');
+
         config.alpn_protocols.push(ALPN_H2.into());
         Ok(Self {
             config: Arc::new(config),
